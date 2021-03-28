@@ -23,6 +23,9 @@
 #define CMD_ARRLT  0x02FDFA05UL
 #define CMD_CHUP   0x02FDD827UL
 #define CMD_CHDN   0x02FDF807UL
+#define CMD_BB     0x027D2CD3UL
+#define CMD_PLAY   0x027DB44BUL
+#define CMD_PAUSE  0x02FD0AF5UL
 
 const char* ssid = "xxx";
 const char* password = "xxx";
@@ -86,6 +89,9 @@ String("<a href = \"/jimaku\">字幕</a><br>") +
 String("<a href = \"/bhyou\">番組表</a><br>") + 
 String("<a href = \"/chup\">ch +</a><br>") + 
 String("<a href = \"/chdown\">ch -</a><br>") + 
+String("<a href = \"/bb\">みるコレ</a><br>") + 
+String("<a href = \"/play\">再生</a><br>") + 
+String("<a href = \"/pause\">一時停止</a><br>") + 
 String("</p>");
 
 
@@ -223,6 +229,24 @@ String("</body></html>");
     delay(100);
     server.send(200, "text/html", htmltxt);            
   });
+
+  server.on("/bb", []() {
+    irsend.sendNEC(CMD_BB);
+    delay(100);
+    server.send(200, "text/html", htmltxt);            
+  });
+
+  server.on("/play", []() {
+    irsend.sendNEC(CMD_PLAY);
+    delay(100);
+    server.send(200, "text/html", htmltxt);            
+  });
+  server.on("/pause", []() {
+    irsend.sendNEC(CMD_PAUSE);
+    delay(100);
+    server.send(200, "text/html", htmltxt);            
+  });
+
 
   server.onNotFound(handleNotFound);
 
